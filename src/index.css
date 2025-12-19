@@ -1,0 +1,242 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap');
+
+@layer base {
+  :root {
+    /* VS Code Light+ inspired */
+    --background: 220 14% 96%;
+    --foreground: 220 13% 18%;
+
+    --card: 0 0% 100%;
+    --card-foreground: 220 13% 18%;
+
+    --popover: 0 0% 100%;
+    --popover-foreground: 220 13% 18%;
+
+    /* Blue accent like VS Code */
+    --primary: 210 100% 50%;
+    --primary-foreground: 0 0% 100%;
+
+    --secondary: 220 14% 90%;
+    --secondary-foreground: 220 13% 18%;
+
+    --muted: 220 14% 92%;
+    --muted-foreground: 220 9% 46%;
+
+    --accent: 262 83% 58%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 220 13% 87%;
+    --input: 220 13% 87%;
+    --ring: 210 100% 50%;
+
+    --radius: 0.5rem;
+
+    /* Custom tokens */
+    --syntax-keyword: 262 83% 58%;
+    --syntax-string: 142 71% 45%;
+    --syntax-function: 210 100% 56%;
+    --syntax-variable: 32 95% 54%;
+    --syntax-comment: 220 9% 55%;
+    --syntax-number: 350 89% 60%;
+
+    --code-bg: 220 14% 94%;
+    --terminal-green: 142 71% 45%;
+    --terminal-cyan: 187 92% 41%;
+
+    --sidebar-background: 0 0% 98%;
+    --sidebar-foreground: 240 5.3% 26.1%;
+    --sidebar-primary: 240 5.9% 10%;
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 240 4.8% 95.9%;
+    --sidebar-accent-foreground: 240 5.9% 10%;
+    --sidebar-border: 220 13% 91%;
+    --sidebar-ring: 217.2 91.2% 59.8%;
+  }
+
+  .dark {
+    /* Dracula / Tokyo Night inspired */
+    --background: 231 15% 13%;
+    --foreground: 220 14% 90%;
+
+    --card: 232 14% 17%;
+    --card-foreground: 220 14% 90%;
+
+    --popover: 232 14% 17%;
+    --popover-foreground: 220 14% 90%;
+
+    /* Cyan accent */
+    --primary: 187 92% 50%;
+    --primary-foreground: 231 15% 13%;
+
+    --secondary: 232 14% 22%;
+    --secondary-foreground: 220 14% 90%;
+
+    --muted: 232 14% 22%;
+    --muted-foreground: 220 9% 60%;
+
+    /* Purple accent */
+    --accent: 265 89% 66%;
+    --accent-foreground: 0 0% 100%;
+
+    --destructive: 350 89% 60%;
+    --destructive-foreground: 0 0% 100%;
+
+    --border: 232 14% 25%;
+    --input: 232 14% 25%;
+    --ring: 187 92% 50%;
+
+    /* Dracula syntax colors */
+    --syntax-keyword: 265 89% 66%;
+    --syntax-string: 135 94% 65%;
+    --syntax-function: 191 97% 77%;
+    --syntax-variable: 31 100% 71%;
+    --syntax-comment: 225 14% 48%;
+    --syntax-number: 350 100% 75%;
+
+    --code-bg: 232 14% 15%;
+    --terminal-green: 135 94% 65%;
+    --terminal-cyan: 191 97% 77%;
+
+    --sidebar-background: 232 14% 15%;
+    --sidebar-foreground: 220 14% 90%;
+    --sidebar-primary: 187 92% 50%;
+    --sidebar-primary-foreground: 231 15% 13%;
+    --sidebar-accent: 232 14% 22%;
+    --sidebar-accent-foreground: 220 14% 90%;
+    --sidebar-border: 232 14% 25%;
+    --sidebar-ring: 187 92% 50%;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-mono;
+  }
+}
+
+@layer components {
+  .text-gradient {
+    @apply bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent;
+    background-size: 200% auto;
+  }
+
+  .syntax-keyword {
+    color: hsl(var(--syntax-keyword));
+  }
+
+  .syntax-string {
+    color: hsl(var(--syntax-string));
+  }
+
+  .syntax-function {
+    color: hsl(var(--syntax-function));
+  }
+
+  .syntax-variable {
+    color: hsl(var(--syntax-variable));
+  }
+
+  .syntax-comment {
+    color: hsl(var(--syntax-comment));
+  }
+
+  .syntax-number {
+    color: hsl(var(--syntax-number));
+  }
+
+  .code-block {
+    @apply bg-code font-mono text-sm rounded-lg p-4 border border-border;
+  }
+
+  .terminal-prompt::before {
+    content: '❯ ';
+    color: hsl(var(--terminal-green));
+  }
+
+  .glow-primary {
+    box-shadow: 0 0 20px hsl(var(--primary) / 0.3);
+  }
+
+  .glow-accent {
+    box-shadow: 0 0 20px hsl(var(--accent) / 0.3);
+  }
+}
+
+@layer utilities {
+  .bg-code {
+    background-color: hsl(var(--code-bg));
+  }
+
+  .animate-float {
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  .animate-typing {
+    animation: typing 3.5s steps(40, end), blink-caret 0.75s step-end infinite;
+  }
+
+  .scrollbar-thin {
+    scrollbar-width: thin;
+    scrollbar-color: hsl(var(--muted-foreground)) transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background-color: hsl(var(--muted-foreground));
+    border-radius: 3px;
+  }
+}
+
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes typing {
+  from {
+    width: 0;
+  }
+  to {
+    width: 100%;
+  }
+}
+
+@keyframes blink-caret {
+  from, to {
+    border-color: transparent;
+  }
+  50% {
+    border-color: hsl(var(--primary));
+  }
+}
