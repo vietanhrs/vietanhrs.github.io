@@ -4,40 +4,36 @@ on:
   push:
     branches: 'main'
 
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
   build_site:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v3
-
-      # If you're using pnpm, add this step then change the commands and cache key below to use `pnpm`
-      # - name: Install pnpm
-      #   uses: pnpm/action-setup@v2
-      #   with:
-      #     version: 8
+        uses: actions/checkout@v4
 
       - name: Install Node.js
         uses: actions/setup-node@v4
         with:
           node-version: 20
-          cache: npm
+          cache: 'npm'
 
       - name: Install dependencies
-        run: npm install
+        run: npm ci
 
-      - name: build
-        env:
-          BASE_PATH: '/${{ github.event.repository.name }}'
+      - name: Build
         run: |
-          npm run build
-          touch build/.nojekyll
+          # Vite uses the 'base' flag to set the subfolder path for GitHub Pages
+          npm run build -- --base=/${{ github.event.repository.name }}/
+          touch dist/.nojekyll
 
       - name: Upload Artifacts
         uses: actions/upload-pages-artifact@v3
         with:
-          # this should match the `pages` option in your adapter-static options
-          path: 'build/'
+          path: 'dist/'
 
   deploy:
     needs: build_site
