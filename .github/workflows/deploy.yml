@@ -17,30 +17,20 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: npm
 
-      - name: Install dependencies
-        run: npm ci
+      - run: npm ci
 
-      # For GitHub Pages, Vite often needs base to be "/" for a user-site repo,
-      # or "/<repo>/" for a project-site repo.
-      # We set it dynamically:
-      - name: Build
-        env:
-          VITE_BASE: ${{ github.event.repository.name == 'vietanhrs.github.io' && '/' || format('/{0}/', github.event.repository.name) }}
-        run: npm run build -- --base="$VITE_BASE"
+      # For a user site repo (vietanhrs.github.io), base should be "/"
+      - run: npm run build -- --base=/
 
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: dist
 
@@ -50,8 +40,6 @@ jobs:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
-
     steps:
-      - name: Deploy to GitHub Pages
-        id: deployment
+      - id: deployment
         uses: actions/deploy-pages@v4
