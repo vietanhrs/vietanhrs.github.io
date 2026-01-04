@@ -1,10 +1,11 @@
 import { Badge } from "@/components/ui/badge";
-import { Building2, Calendar, GraduationCap, Briefcase } from "lucide-react";
+import { Building2, Calendar, GraduationCap, Briefcase, ExternalLink } from "lucide-react";
 
 interface Experience {
   title: string;
   period: string;
   organization: string;
+  organizationUrl?: string;
   description?: string;
   skills: string[];
   type: "work" | "research" | "teaching";
@@ -15,6 +16,7 @@ const experiences: Experience[] = [
     title: "Co-founder",
     period: "November 2025 - Present",
     organization: "Wins Residence",
+    organizationUrl: "https://www.winsresidence.com/",
     description: "Digital Media, Foreign Languages",
     skills: ["Venture Capital", "Digital Marketing", "Management"],
     type: "work",
@@ -160,9 +162,19 @@ export function ExperienceSection() {
 
                     {/* Title & Org */}
                     <h3 className="text-lg font-bold mb-1">{exp.title}</h3>
-                    <p className="text-primary font-mono text-sm mb-2">
-                      {exp.organization}
-                    </p>
+                    {exp.organizationUrl ? (
+                      <a
+                        href={exp.organizationUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="inline-flex items-center gap-1 text-primary font-mono text-sm mb-2 hover:underline"
+                      >
+                        {exp.organization}
+                        <ExternalLink className="w-3 h-3" />
+                      </a>
+                    ) : (
+                      <p className="text-primary font-mono text-sm mb-2">{exp.organization}</p>
+                    )}
 
                     {/* Period */}
                     <div
