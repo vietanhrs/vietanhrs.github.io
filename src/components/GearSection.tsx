@@ -23,7 +23,7 @@ interface IoTItem {
 const laptops: Laptop[] = [
   {
     name: "ASUS Vivobook S 14",
-    os: "OpenSUSE Leap 16.0",
+    os: "Debian 13 Trixie",
     cpu: "Intel Core Ultra 5 225H (14 cores)",
     ram: "32 GiB",
     storage: "474.4GB SSD",
@@ -31,7 +31,7 @@ const laptops: Laptop[] = [
   },
   {
     name: "Acer Nitro V",
-    os: "Debian 12 Bookworm",
+    os: "CachyOS",
     cpu: "13th Gen Intel Core i7-13620H (16 threads)",
     ram: "16.0 GiB",
     storage: "512GB SSD",
@@ -39,7 +39,7 @@ const laptops: Laptop[] = [
   },
   {
     name: "Dell Vostro 3405",
-    os: "Debian 12 Bookworm",
+    os: "Fedora 43 Desktop Workstation",
     cpu: "AMD Ryzen 7 3700U",
     ram: "13.5 GiB",
     storage: "640.1GB SSD",
