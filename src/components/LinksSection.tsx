@@ -4,6 +4,9 @@ import {
   Twitter,
   Instagram,
   ExternalLink,
+  Linkedin,
+  Mail,
+  Phone,
 } from "lucide-react";
 
 interface SocialLink {
@@ -14,7 +17,6 @@ interface SocialLink {
   color: string;
 }
 
-// Custom icons for platforms not in lucide
 const CodeForcesIcon = ({ className }: { className?: string }) => (
   <svg className={className} viewBox="0 0 24 24" fill="currentColor">
     <path d="M4.5 7.5C5.328 7.5 6 8.172 6 9v10.5c0 .828-.672 1.5-1.5 1.5h-3C.672 21 0 20.328 0 19.5V9c0-.828.672-1.5 1.5-1.5h3zm9-4.5c.828 0 1.5.672 1.5 1.5v15c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5v-15c0-.828.672-1.5 1.5-1.5h3zm9 7.5c.828 0 1.5.672 1.5 1.5v7.5c0 .828-.672 1.5-1.5 1.5h-3c-.828 0-1.5-.672-1.5-1.5V12c0-.828.672-1.5 1.5-1.5h3z" />
@@ -27,12 +29,6 @@ const LeetCodeIcon = ({ className }: { className?: string }) => (
   </svg>
 );
 
-const TwitchIcon = ({ className }: { className?: string }) => (
-  <svg className={className} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M11.571 4.714h1.715v5.143H11.57zm4.715 0H18v5.143h-1.714zM6 0L1.714 4.286v15.428h5.143V24l4.286-4.286h3.428L22.286 12V0zm14.571 11.143l-3.428 3.428h-3.429l-3 3v-3H6.857V1.714h13.714z" />
-  </svg>
-);
-
 const socialLinks: SocialLink[] = [
   {
     name: "GitHub",
@@ -40,6 +36,27 @@ const socialLinks: SocialLink[] = [
     url: "https://github.com/vietanhrs",
     icon: Github,
     color: "hover:text-foreground",
+  },
+  {
+    name: "LinkedIn",
+    username: "tva2710",
+    url: "https://www.linkedin.com/in/tva2710",
+    icon: Linkedin,
+    color: "hover:text-[#0A66C2]",
+  },
+  {
+    name: "Email",
+    username: "vietanhtran.uet@gmail.com",
+    url: "mailto:vietanhtran.uet@gmail.com",
+    icon: Mail,
+    color: "hover:text-[#EA4335]",
+  },
+  {
+    name: "Phone",
+    username: "(+84) 988 582 914",
+    url: "tel:+84988582914",
+    icon: Phone,
+    color: "hover:text-[#25D366]",
   },
   {
     name: "Facebook",
@@ -76,20 +93,12 @@ const socialLinks: SocialLink[] = [
     icon: LeetCodeIcon,
     color: "hover:text-[#FFA116]",
   },
-  {
-    name: "Twitch",
-    username: "cplusplus2710",
-    url: "https://www.twitch.tv/cplusplus2710",
-    icon: TwitchIcon,
-    color: "hover:text-[#9146FF]",
-  },
 ];
 
 export function LinksSection() {
   return (
     <section id="links" className="py-24 bg-secondary/30">
       <div className="container mx-auto px-4">
-        {/* Section Header */}
         <div className="max-w-4xl mx-auto mb-16 text-center">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="syntax-keyword">import</span>{" "}
@@ -100,14 +109,11 @@ export function LinksSection() {
             <span className="syntax-string">"./social"</span>
           </h2>
           <p className="text-muted-foreground font-mono text-sm">
-            <span className="syntax-comment">
-              // Let's connect across the internet
-            </span>
+            <span className="syntax-comment">// Reach me where ideas, products, and opportunities happen</span>
           </p>
         </div>
 
-        {/* Links Grid */}
-        <div className="max-w-4xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+        <div className="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {socialLinks.map((link, index) => {
             const Icon = link.icon;
             return (
@@ -116,7 +122,7 @@ export function LinksSection() {
                 href={link.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`group bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center gap-4`}
+                className="group bg-card border border-border rounded-xl p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 flex items-center gap-4"
               >
                 <div
                   className={`w-12 h-12 rounded-xl bg-secondary flex items-center justify-center transition-colors ${link.color}`}
