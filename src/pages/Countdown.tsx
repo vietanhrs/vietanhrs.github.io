@@ -97,8 +97,8 @@ const Countdown = () => {
                   <span className="text-gradient">the moment</span>
                 </h1>
                 <p className="mx-auto max-w-2xl text-base leading-7 text-muted-foreground md:text-lg">
-                  A quiet countdown page, styled to match the rest of the site.
-                  No breadcrumb from the homepage — only the link if you already know it.
+                  The remaining time of my journey at Teko, counting down to 18:00 on
+                  15 June 2026.
                 </p>
               </div>
 
