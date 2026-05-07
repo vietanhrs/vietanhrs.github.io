@@ -11,6 +11,16 @@
 
   <body>
     <div id="root"></div>
+    <script>
+      (function () {
+        const redirect = sessionStorage.getItem("spa-redirect");
+        if (!redirect) return;
+
+        sessionStorage.removeItem("spa-redirect");
+        const target = new URL(redirect, window.location.origin);
+        window.history.replaceState(null, "", `${target.pathname}${target.search}${target.hash}`);
+      })();
+    </script>
     <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
