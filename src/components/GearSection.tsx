@@ -1,5 +1,12 @@
 import { Badge } from "@/components/ui/badge";
-import { Laptop, Keyboard, Cpu, HardDrive, MemoryStick, Gamepad2 } from "lucide-react";
+import {
+  Laptop,
+  Keyboard,
+  Cpu,
+  HardDrive,
+  MemoryStick,
+  Gamepad2,
+} from "lucide-react";
 
 interface Laptop {
   name: string;
@@ -22,24 +29,16 @@ interface IoTItem {
 
 const laptops: Laptop[] = [
   {
-    name: "ASUS Vivobook S 14",
-    os: "Debian 13 Trixie",
-    cpu: "Intel Core Ultra 5 225H (14 cores)",
-    ram: "32 GiB",
-    storage: "474.4GB SSD",
-    gpu: "Mesa Intel Graphics",
-  },
-  {
     name: "Acer Nitro V",
     os: "CachyOS",
     cpu: "13th Gen Intel Core i7-13620H (16 threads)",
     ram: "16.0 GiB",
-    storage: "512GB SSD",
+    storage: "512GB + 1TB SSD",
     gpu: "NVIDIA GeForce RTX 2050",
   },
   {
     name: "Dell Vostro 3405",
-    os: "Fedora 43 Desktop Workstation",
+    os: "OpenSUSE Leap",
     cpu: "AMD Ryzen 7 3700U",
     ram: "13.5 GiB",
     storage: "640.1GB SSD",
@@ -48,7 +47,11 @@ const laptops: Laptop[] = [
 ];
 
 const keyboards: KeyboardItem[] = [
-  { name: "Sofle V2", details: "Akko Cream V3 Pro Fairy Silent • Linear / Pre-lubed / 55g • Minimalist Black PBT Keycaps" },
+  {
+    name: "Sofle V2",
+    details:
+      "Akko Cream V3 Pro Fairy Silent • Linear / Pre-lubed / 55g • Minimalist Black PBT Keycaps",
+  },
   { name: "Leopold FC660M BT" },
   { name: "AKKO 3098 RF Dracula Castle" },
   { name: "AKKO 3108 RF White on Black" },
@@ -75,7 +78,9 @@ export function GearSection() {
             <span className="text-muted-foreground">()</span>
           </h2>
           <p className="text-muted-foreground font-mono text-sm">
-            <span className="syntax-comment">// The tools that power my work</span>
+            <span className="syntax-comment">
+              // The tools that power my work
+            </span>
           </p>
         </div>
 
@@ -84,9 +89,11 @@ export function GearSection() {
           <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
             <Laptop className="w-5 h-5 text-primary" />
             <span className="syntax-variable">laptops</span>
-            <span className="text-muted-foreground font-mono text-sm">// {laptops.length} machines</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              // {laptops.length} machines
+            </span>
           </h3>
-          
+
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
             {laptops.map((laptop, index) => (
               <div
@@ -116,7 +123,9 @@ export function GearSection() {
                   </div>
                   <div className="flex items-center gap-2">
                     <HardDrive className="w-4 h-4 text-syntax-variable" />
-                    <span className="text-muted-foreground">{laptop.storage}</span>
+                    <span className="text-muted-foreground">
+                      {laptop.storage}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Gamepad2 className="w-4 h-4 text-accent" />
@@ -133,9 +142,11 @@ export function GearSection() {
           <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
             <Keyboard className="w-5 h-5 text-accent" />
             <span className="syntax-variable">keyboards</span>
-            <span className="text-muted-foreground font-mono text-sm">// {keyboards.length} boards</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              // {keyboards.length} boards
+            </span>
           </h3>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {keyboards.map((kb, index) => (
               <div
@@ -147,7 +158,9 @@ export function GearSection() {
                   <div>
                     <h4 className="font-mono font-medium">{kb.name}</h4>
                     {kb.details && (
-                      <p className="text-muted-foreground text-xs mt-1">{kb.details}</p>
+                      <p className="text-muted-foreground text-xs mt-1">
+                        {kb.details}
+                      </p>
                     )}
                   </div>
                 </div>
@@ -161,9 +174,11 @@ export function GearSection() {
           <h3 className="text-xl font-bold mb-6 flex items-center gap-2">
             <Cpu className="w-5 h-5 text-syntax-string" />
             <span className="syntax-variable">iotDevices</span>
-            <span className="text-muted-foreground font-mono text-sm">// embedded</span>
+            <span className="text-muted-foreground font-mono text-sm">
+              // embedded
+            </span>
           </h3>
-          
+
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             {iotItems.map((item, index) => (
               <div
@@ -176,7 +191,9 @@ export function GearSection() {
                   </div>
                   <div>
                     <h4 className="font-mono font-medium">{item.name}</h4>
-                    <p className="text-muted-foreground text-sm">{item.description}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {item.description}
+                    </p>
                   </div>
                 </div>
               </div>

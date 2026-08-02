@@ -6,7 +6,6 @@ const roles = [
   "Solution Architect",
   "Full-stack Software Engineer",
   "Front-end Specialist",
-  "Blockchain Product Engineer",
   "Builder & Tinkerer",
 ];
 
@@ -34,7 +33,7 @@ export function HeroSection() {
           }
         }
       },
-      isDeleting ? 40 : 90
+      isDeleting ? 40 : 90,
     );
 
     return () => clearTimeout(timeout);
@@ -99,7 +98,7 @@ export function HeroSection() {
                   <span className="syntax-string">focus.txt</span>
                 </p>
                 <p className="text-muted-foreground pl-4">
-                  System Design • Front-end Architecture • DeFi Products
+                  System Design • Front-end Architecture
                 </p>
               </div>
               <div className="space-y-2 pt-4 md:pt-0 border-t md:border-t-0 border-border">
@@ -113,7 +112,8 @@ export function HeroSection() {
                   vietanhtran.uet@gmail.com
                 </p>
                 <p className="text-muted-foreground pl-4">
-                  <span className="syntax-comment">phone:</span> (+84) 988 582 914
+                  <span className="syntax-comment">phone:</span> (+84) 988 582
+                  914
                 </p>
               </div>
             </div>
@@ -140,10 +140,20 @@ export function HeroSection() {
 
             <p className="mt-8 max-w-3xl mx-auto text-base md:text-lg text-muted-foreground leading-8">
               I design systems, build polished front-end experiences, and ship
-              full-stack blockchain products. My work sits at the intersection of
-              <span className="text-foreground font-medium"> architecture</span>,
-              <span className="text-foreground font-medium"> product thinking</span>,
-              and <span className="text-foreground font-medium"> hands-on engineering</span>.
+              full-stack blockchain products. My work sits at the intersection
+              of
+              <span className="text-foreground font-medium"> architecture</span>
+              ,
+              <span className="text-foreground font-medium">
+                {" "}
+                product thinking
+              </span>
+              , and{" "}
+              <span className="text-foreground font-medium">
+                {" "}
+                hands-on engineering
+              </span>
+              .
             </p>
           </div>
 
@@ -159,20 +169,47 @@ export function HeroSection() {
               <span>explore</span>
               <span className="opacity-70">()</span>
             </Button>
-            <Button variant="outline" size="lg" className="font-mono gap-2" asChild>
-              <a href="https://github.com/vietanhrs" target="_blank" rel="noopener noreferrer">
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-mono gap-2"
+              asChild
+            >
+              <a
+                href="https://github.com/vietanhrs"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Github className="h-4 w-4" />
                 <span>GitHub</span>
               </a>
             </Button>
-            <Button variant="outline" size="lg" className="font-mono gap-2" asChild>
-              <a href="https://www.linkedin.com/in/tva2710" target="_blank" rel="noopener noreferrer">
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-mono gap-2"
+              asChild
+            >
+              <a
+                href="https://www.linkedin.com/in/tva2710"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <Linkedin className="h-4 w-4" />
                 <span>LinkedIn</span>
               </a>
             </Button>
-            <Button variant="outline" size="lg" className="font-mono gap-2" asChild>
-              <a href="/Simple-CV-updated.pdf" target="_blank" rel="noopener noreferrer">
+            <Button
+              variant="outline"
+              size="lg"
+              className="font-mono gap-2"
+              asChild
+            >
+              <a
+                href="/Simple-CV-updated.pdf"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <FileText className="h-4 w-4" />
                 <span>CV</span>
               </a>

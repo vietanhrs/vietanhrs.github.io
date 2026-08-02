@@ -35,14 +35,14 @@ const experiences: Experience[] = [
   },
   {
     title: "Software Engineer / Blockchain Product Engineer",
-    period: "November 2022 - Present",
+    period: "November 2022 - June 2026",
     organization: "Teko Solution",
     description:
       "Leading and delivering front-end and product engineering work across blockchain and DeFi products, while also contributing to system design, integration strategy, and release execution.",
     products: [
-      { name: "Danogo", url: "https://app.danogo.io/leverage-trading" },
+      { name: "Danogo", url: "https://app.danogo.io/" },
       { name: "Nio App", url: "https://nioapp.io/" },
-      { name: "BTC Grow", url: "https://app.btcgrow.io/stake" },
+      { name: "BTC Grow", url: "https://app.btcgrow.io/" },
       { name: "Tempi", url: "http://tempi.vn" },
     ],
     highlights: [
@@ -66,7 +66,7 @@ const experiences: Experience[] = [
   },
   {
     title: "Data Mining & Analysis in DeFi",
-    period: "April 2022 - Present",
+    period: "April 2022 - Apr 2026",
     organization: "Faculty of Finance & Banking - UEB - VNU",
     description:
       "Research work centered on DAO, governance, lending, and protocol data analysis for decentralized finance.",
@@ -154,7 +154,9 @@ export function ExperienceSection() {
             <span className="text-muted-foreground">{"{"}</span>
           </h2>
           <p className="text-muted-foreground font-mono text-sm pl-4">
-            <span className="syntax-comment">// Architecture, product delivery, and hands-on engineering</span>
+            <span className="syntax-comment">
+              // Architecture, product delivery, and hands-on engineering
+            </span>
           </p>
         </div>
 
@@ -210,7 +212,9 @@ export function ExperienceSection() {
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ) : (
-                      <p className="text-primary font-mono text-sm mb-2">{exp.organization}</p>
+                      <p className="text-primary font-mono text-sm mb-2">
+                        {exp.organization}
+                      </p>
                     )}
 
                     <div
@@ -269,7 +273,11 @@ export function ExperienceSection() {
                       }`}
                     >
                       {exp.skills.map((skill) => (
-                        <Badge key={skill} variant="secondary" className="font-mono text-xs">
+                        <Badge
+                          key={skill}
+                          variant="secondary"
+                          className="font-mono text-xs"
+                        >
                           {skill}
                         </Badge>
                       ))}
