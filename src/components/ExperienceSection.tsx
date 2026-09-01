@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import {
   Building2,
@@ -5,7 +6,12 @@ import {
   GraduationCap,
   Briefcase,
   ExternalLink,
+  Sparkles,
 } from "lucide-react";
+
+const WORLDQUANT_START_TIME = new Date(
+  "2026-09-07T09:00:00+07:00",
+).getTime();
 
 interface Experience {
   title: string;
@@ -17,9 +23,25 @@ interface Experience {
   products?: { name: string; url: string }[];
   skills: string[];
   type: "work" | "research" | "teaching";
+  featured?: boolean;
+  startsAt?: number;
+  currentPeriod?: string;
+  currentDescription?: string;
 }
 
 const experiences: Experience[] = [
+  {
+    title: "Front-end Engineer",
+    period: "Starting September 7, 2026 at 9:00 AM GMT+7",
+    currentPeriod: "September 2026 - now",
+    organization: "WorldQuant",
+    description: "Joining WorldQuant as a Front-end Engineer.",
+    currentDescription: "Working at WorldQuant as a Front-end Engineer.",
+    skills: ["Front-end Engineering"],
+    type: "work",
+    featured: true,
+    startsAt: WORLDQUANT_START_TIME,
+  },
   {
     title: "Co-founder",
     period: "November 2025 - Present",
@@ -144,10 +166,27 @@ const typeColors = {
 };
 
 export function ExperienceSection() {
+  const [hasWorldQuantStarted, setHasWorldQuantStarted] = useState(
+    () => Date.now() >= WORLDQUANT_START_TIME,
+  );
+
+  useEffect(() => {
+    const timeUntilStart = WORLDQUANT_START_TIME - Date.now();
+
+    if (timeUntilStart <= 0) return;
+
+    const timeoutId = window.setTimeout(
+      () => setHasWorldQuantStarted(true),
+      timeUntilStart,
+    );
+
+    return () => window.clearTimeout(timeoutId);
+  }, []);
+
   return (
     <section id="experiences" className="py-24 relative">
       <div className="container mx-auto px-4">
-        <div className="max-w-5xl mx-auto mb-16">
+        <div className="max-w-6xl mx-auto mb-16">
           <h2 className="text-3xl md:text-4xl font-bold mb-4">
             <span className="syntax-keyword">interface</span>{" "}
             <span className="syntax-function">Experience</span>{" "}
@@ -160,84 +199,130 @@ export function ExperienceSection() {
           </p>
         </div>
 
-        <div className="max-w-5xl mx-auto relative">
-          <div className="absolute left-0 md:left-1/2 top-0 bottom-0 w-px bg-border md:-translate-x-1/2" />
+        <div className="max-w-6xl mx-auto relative">
+          <div
+            aria-hidden="true"
+            className="absolute left-2 top-0 bottom-0 w-px -translate-x-1/2 bg-border"
+          />
 
-          {experiences.map((exp, index) => {
+          {experiences.map((exp) => {
             const Icon = typeIcons[exp.type];
-            const isLeft = index % 2 === 0;
+            const isIncoming = Boolean(
+              exp.startsAt && !hasWorldQuantStarted,
+            );
+            const displayPeriod =
+              exp.startsAt && hasWorldQuantStarted
+                ? (exp.currentPeriod ?? exp.period)
+                : exp.period;
+            const displayDescription =
+              exp.startsAt && hasWorldQuantStarted
+                ? (exp.currentDescription ?? exp.description)
+                : exp.description;
 
             return (
               <div
-                key={index}
-                className={`relative flex flex-col md:flex-row gap-8 mb-12 ${
-                  isLeft ? "md:flex-row" : "md:flex-row-reverse"
-                }`}
+                key={`${exp.organization}-${exp.title}`}
+                className="relative mb-10 last:mb-0"
               >
-                <div className="absolute left-0 md:left-1/2 w-4 h-4 rounded-full bg-card border-2 border-primary md:-translate-x-1/2 z-10" />
-
                 <div
-                  className={`flex-1 ml-8 md:ml-0 ${
-                    isLeft ? "md:pr-12 md:text-right" : "md:pl-12"
+                  aria-hidden="true"
+                  className={`absolute left-2 top-7 z-20 -translate-x-1/2 rounded-full border-primary ${
+                    exp.featured
+                      ? "h-5 w-5 border-4 bg-primary ring-4 ring-primary/20"
+                      : "h-4 w-4 border-2 bg-card"
                   }`}
-                >
-                  <div
-                    className={`bg-card border border-border rounded-lg p-6 hover:border-primary/50 transition-all duration-300 hover:shadow-lg ${
-                      isLeft ? "md:mr-4" : "md:ml-4"
+                />
+
+                <div className="ml-8 md:ml-12">
+                  <article
+                    className={`relative overflow-hidden rounded-lg border p-6 transition-all duration-300 ${
+                      exp.featured
+                        ? "border-primary/70 bg-gradient-to-br from-primary/20 via-card to-accent/10 shadow-xl shadow-primary/20 ring-1 ring-primary/30 hover:shadow-2xl hover:shadow-primary/25 md:p-8"
+                        : "border-border bg-card hover:border-primary/50 hover:shadow-lg"
                     }`}
                   >
-                    <div
-                      className={`flex items-center gap-2 mb-3 ${
-                        isLeft ? "md:justify-end" : ""
-                      }`}
-                    >
+                    {exp.featured && (
+                      <div
+                        aria-hidden="true"
+                        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-primary"
+                      />
+                    )}
+
+                    <div className="flex flex-wrap items-center gap-2 mb-3">
+                      {exp.featured && (
+                        <Badge className="border-foreground bg-foreground font-mono text-xs text-background shadow-md shadow-primary/20">
+                          <Sparkles
+                            aria-hidden="true"
+                            className="mr-1 h-3 w-3"
+                          />
+                          {isIncoming ? "incoming" : "current"}
+                        </Badge>
+                      )}
                       <Badge
                         variant="outline"
-                        className={`${typeColors[exp.type]} font-mono text-xs`}
+                        className={`font-mono text-xs ${
+                          exp.featured
+                            ? "border-primary/30 bg-primary/10 text-foreground"
+                            : typeColors[exp.type]
+                        }`}
                       >
                         <Icon className="w-3 h-3 mr-1" />
                         {exp.type}
                       </Badge>
                     </div>
 
-                    <h3 className="text-lg font-bold mb-1">{exp.title}</h3>
+                    <h3
+                      className={`font-bold mb-1 ${
+                        exp.featured
+                          ? "text-2xl text-primary md:text-3xl"
+                          : "text-lg"
+                      }`}
+                    >
+                      {exp.title}
+                    </h3>
                     {exp.organizationUrl ? (
                       <a
                         href={exp.organizationUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-primary font-mono text-sm mb-2 hover:underline"
+                        className={`inline-flex items-center gap-1 font-mono mb-2 hover:underline ${
+                          exp.featured
+                            ? "text-xl font-semibold text-foreground"
+                            : "text-sm text-primary"
+                        }`}
                       >
                         {exp.organization}
                         <ExternalLink className="w-3 h-3" />
                       </a>
                     ) : (
-                      <p className="text-primary font-mono text-sm mb-2">
+                      <p
+                        className={`font-mono mb-2 ${
+                          exp.featured
+                            ? "text-xl font-semibold text-foreground"
+                            : "text-sm text-primary"
+                        }`}
+                      >
                         {exp.organization}
                       </p>
                     )}
 
-                    <div
-                      className={`flex items-center gap-2 text-muted-foreground text-sm mb-3 ${
-                        isLeft ? "md:justify-end" : ""
-                      }`}
-                    >
+                    <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
                       <Calendar className="w-4 h-4" />
-                      {exp.period}
+                      {displayPeriod}
                     </div>
 
-                    {exp.description && (
-                      <p className="text-muted-foreground text-sm mb-4 leading-7">
-                        {exp.description}
+                    {displayDescription && (
+                      <p
+                        className={`text-muted-foreground mb-4 leading-7 ${
+                          exp.featured ? "text-base" : "text-sm"
+                        }`}
+                      >
+                        {displayDescription}
                       </p>
                     )}
 
                     {exp.products && exp.products.length > 0 && (
-                      <div
-                        className={`flex flex-wrap gap-2 mb-4 ${
-                          isLeft ? "md:justify-end" : ""
-                        }`}
-                      >
+                      <div className="flex flex-wrap gap-2 mb-4">
                         {exp.products.map((product) => (
                           <a
                             key={product.name}
@@ -254,11 +339,7 @@ export function ExperienceSection() {
                     )}
 
                     {exp.highlights && (
-                      <ul
-                        className={`space-y-2 text-sm text-muted-foreground mb-4 ${
-                          isLeft ? "md:pl-8" : "pl-4"
-                        } list-disc`}
-                      >
+                      <ul className="space-y-2 text-sm text-muted-foreground mb-4 pl-4 list-disc">
                         {exp.highlights.map((highlight) => (
                           <li key={highlight} className="leading-7">
                             {highlight}
@@ -267,31 +348,29 @@ export function ExperienceSection() {
                       </ul>
                     )}
 
-                    <div
-                      className={`flex flex-wrap gap-2 ${
-                        isLeft ? "md:justify-end" : ""
-                      }`}
-                    >
+                    <div className="flex flex-wrap gap-2">
                       {exp.skills.map((skill) => (
                         <Badge
                           key={skill}
                           variant="secondary"
-                          className="font-mono text-xs"
+                          className={`font-mono text-xs ${
+                            exp.featured
+                              ? "border border-primary/30 bg-primary/10 text-foreground"
+                              : ""
+                          }`}
                         >
                           {skill}
                         </Badge>
                       ))}
                     </div>
-                  </div>
+                  </article>
                 </div>
-
-                <div className="hidden md:block flex-1" />
               </div>
             );
           })}
         </div>
 
-        <div className="max-w-5xl mx-auto mt-8">
+        <div className="max-w-6xl mx-auto mt-8">
           <p className="text-muted-foreground font-mono text-3xl md:text-4xl">
             <span className="text-muted-foreground">{"}"}</span>
           </p>
