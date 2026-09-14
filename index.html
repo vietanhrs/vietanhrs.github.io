@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Trần Việt Anh</title>
+    <meta name="description" content="Viet Anh Tran Portfolio" />
+    <meta name="author" content="anh.tv" />
+  </head>
+
+  <body>
+    <div id="root"></div>
+    <script>
+      (function () {
+        const redirect = sessionStorage.getItem("spa-redirect");
+        if (!redirect) return;
+
+        sessionStorage.removeItem("spa-redirect");
+        const target = new URL(redirect, window.location.origin);
+        window.history.replaceState(null, "", `${target.pathname}${target.search}${target.hash}`);
+      })();
+    </script>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
