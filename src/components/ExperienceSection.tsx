@@ -158,7 +158,7 @@ function Role({ exp }: { exp: Experience }) {
         </p>
         {exp.highlights && (
           <ul>
-            {exp.highlights.slice(0, 2).map((text) => (
+            {exp.highlights.slice(0, 3).map((text) => (
               <li key={text}>{text}</li>
             ))}
           </ul>

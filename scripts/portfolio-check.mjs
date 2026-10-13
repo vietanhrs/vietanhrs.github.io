@@ -27,6 +27,16 @@ try {
       await page.goto(base);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator("h1").innerText(), "Trần Việt Anh");
+      // Preserve supported delivery evidence while withholding unverified metrics.
+      const teko = page.locator("#experiences article").filter({
+        has: page.getByRole("heading", { name: "Teko Solution", exact: true }),
+      });
+      assert(await teko.getByText(
+        "Delivered medium- and high-complexity epics spanning data-intensive user workflows, admin interfaces, multi-language support, browser embedding, and release coordination.",
+        { exact: true },
+      ).isVisible());
+      assert.equal(await teko.locator("li").count(), 3);
+      assert.equal(await page.getByText(/roughly 5 minutes to about 1 second/).count(), 0);
       assert(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
