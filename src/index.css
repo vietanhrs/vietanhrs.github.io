@@ -936,7 +936,7 @@
     padding: 24px 20px;
   }
   .gear-grid dl > div {
-    grid-template-columns: 60px 1fr;
+    grid-template-columns: max-content minmax(0, 1fr);
     gap: 12px;
   }
   .keyboard-list {
@@ -1058,4 +1058,8 @@
   .score {
     font-size: 80px;
   }
+}
+
+@media (min-width: 600px) and (max-width: 899px) {
+  .recognition-lead { align-items: start; }
 }
