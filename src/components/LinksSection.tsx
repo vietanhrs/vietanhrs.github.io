@@ -45,12 +45,11 @@ export function LinksSection() {
       aria-labelledby="contact-title"
     >
       <div className="section-heading">
-        <p className="eyebrow">04 / Contact</p>
-        <h2 id="contact-title">Let’s talk engineering.</h2>
+        <h2 id="contact-title">Contact</h2>
         <p>For product, architecture, and engineering conversations.</p>
       </div>
       <a className="contact-email" href="mailto:vietanhtran.uet@gmail.com">
-        vietanhtran.uet@gmail.com ↗
+        vietanhtran.uet@gmail.com
       </a>
       <a className="contact-phone" href="tel:+84988582914">
         (+84) 988 582 914
@@ -65,7 +64,7 @@ export function LinksSection() {
               target="_blank"
               rel="noopener noreferrer"
             >
-              {link.name} ↗
+              {link.name}
             </a>
           ))}
       </div>

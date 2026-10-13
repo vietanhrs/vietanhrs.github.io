@@ -57,7 +57,7 @@ const experiences: Experience[] = [
       "Served as the main engineer for integrating NIO products with Tempi micro-frontend infrastructure, resolving difficult compatibility issues across products and repositories.",
       "Delivered medium- and high-complexity epics spanning data-intensive user workflows, admin interfaces, multi-language support, browser embedding, and release coordination.",
       "Designed technical solutions where common React state patterns were insufficient, including cross-application integration and shared-state flows across micro-frontends and multi-package UI systems.",
-      "Built a real-time alerting solution that reduced incident alert latency from roughly 5 minutes to about 1 second, making alerts directly actionable for on-call engineers.",
+      "Built a real-time alerting solution that made incident alerts directly actionable for on-call engineers.",
     ],
     skills: [
       "React",
@@ -138,52 +138,83 @@ const experiences: Experience[] = [
   },
 ];
 
-function Role({ exp }: { exp: Experience }) {
+const roleIds = [
+  "worldquant",
+  "wins-residence",
+  "teko",
+  "defi-research",
+  "tvm",
+  "blockchain-lab",
+  "robotics",
+  "evolutionary-research",
+];
+function Role({ exp, index }: { exp: Experience; index: number }) {
   const started = !exp.startsAt || Date.now() >= exp.startsAt;
   return (
-    <article className="role">
-      <div>
-        <p className="meta">
-          {started ? (exp.currentPeriod ?? exp.period) : exp.period}
+    <article
+      id={roleIds[index]}
+      tabIndex={-1}
+      className={
+        "role role-" + exp.type + (exp.featured ? " role-current" : "")
+      }
+    >
+      <header className="role-header">
+        <div>
+          <h3>{exp.organization}</h3>
+          <p className="role-period">
+            {started ? (exp.currentPeriod ?? exp.period) : exp.period}
+          </p>
+        </div>
+        <p className="role-kind">
+          {exp.featured
+            ? "Current role"
+            : exp.type === "work"
+              ? "Industry"
+              : exp.type === "teaching"
+                ? "Research & teaching"
+                : "Research"}
         </p>
-        <h3>{exp.organization}</h3>
-        {exp.featured && <span className="current-label">Current</span>}
-      </div>
-      <div>
-        <h4>{exp.title}</h4>
+      </header>
+      <div className="role-content">
+        <p className="role-title">{exp.title}</p>
         <p>
           {started
             ? (exp.currentDescription ?? exp.description)
             : exp.description}
         </p>
         {exp.highlights && (
-          <ul>
-            {exp.highlights.slice(0, 3).map((text) => (
+          <ul className="role-highlights">
+            {exp.highlights.map((text) => (
               <li key={text}>{text}</li>
             ))}
           </ul>
         )}
-        <p className="tags">{exp.skills.join(" / ")}</p>
-        {exp.organizationUrl && (
-          <a
-            href={exp.organizationUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Organization website ↗
-          </a>
-        )}
-        {exp.products?.map((p) => (
-          <a
-            className="product-link"
-            key={p.name}
-            href={p.url}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            {p.name} — product website ↗
-          </a>
-        ))}
+        <ul className="skill-list" aria-label="Skills">
+          {exp.skills.map((skill) => (
+            <li key={skill}>{skill}</li>
+          ))}
+        </ul>
+        <div className="role-links">
+          {exp.organizationUrl && (
+            <a
+              href={exp.organizationUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {exp.organization} website
+            </a>
+          )}
+          {exp.products?.map((p) => (
+            <a
+              key={p.name}
+              href={p.url}
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              {p.name} product website
+            </a>
+          ))}
+        </div>
       </div>
     </article>
   );
@@ -193,22 +224,61 @@ export function ExperienceSection() {
     <section
       id="experiences"
       tabIndex={-1}
-      className="section shell"
+      className="section shell experience"
       aria-labelledby="experience-title"
     >
       <div className="section-heading">
-        <p className="eyebrow">02 / Experience</p>
-        <h2 id="experience-title">From research to product delivery.</h2>
+        <h2 id="experience-title">Experience</h2>
+        <p>
+          Front-end architecture, product delivery, and the research that shaped
+          my engineering.
+        </p>
       </div>
-      {experiences.slice(0, 3).map((exp) => (
-        <Role key={exp.organization} exp={exp} />
-      ))}
-      <details className="archive">
-        <summary>Earlier engineering & research · 2019–2026</summary>
-        {experiences.slice(3).map((exp) => (
-          <Role key={exp.title} exp={exp} />
-        ))}
-      </details>
+      <div className="career-layout">
+        <aside className="career-index">
+          <p>Career index</p>
+          <nav aria-label="Career roles">
+            {experiences.map((exp, i) => (
+              <a href={"#" + roleIds[i]} key={roleIds[i]}>
+                <span>
+                  {
+                    [
+                      "2026",
+                      "2025",
+                      "2022",
+                      "2022",
+                      "2021",
+                      "2021",
+                      "2019",
+                      "2020",
+                    ][i]
+                  }
+                </span>
+                {
+                  [
+                    "WorldQuant",
+                    "Wins Residence",
+                    "Teko Solution",
+                    "DeFi research",
+                    "TVM Digital",
+                    "Blockchain lab",
+                    "Robotics / UET",
+                    "Evolutionary AI",
+                  ][i]
+                }
+              </a>
+            ))}
+          </nav>
+          <p className="index-note">
+            All roles and responsibilities are shown below.
+          </p>
+        </aside>
+        <div className="career-record">
+          {experiences.map((exp, i) => (
+            <Role key={roleIds[i]} exp={exp} index={i} />
+          ))}
+        </div>
+      </div>
     </section>
   );
 }

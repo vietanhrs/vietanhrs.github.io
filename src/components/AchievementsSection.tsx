@@ -73,47 +73,74 @@ const achievements: Achievement[] = [
   },
 ];
 
-function Award({ item }: { item: Achievement }) {
-  return (
-    <li>
-      <span className="meta">{item.year}</span>
-      <div>
-        <h3>{item.title}</h3>
-        <p>{item.description}</p>
-        {item.link && (
-          <a href={item.link} target="_blank" rel="noopener noreferrer">
-            Verify certificate ↗
-          </a>
-        )}
-      </div>
-    </li>
-  );
-}
 export function AchievementsSection() {
   return (
     <section
       id="achievements"
       tabIndex={-1}
-      className="section shell"
+      className="achievement-field"
       aria-labelledby="achievements-title"
     >
-      <div className="section-heading">
-        <p className="eyebrow">03 / Achievements</p>
-        <h2 id="achievements-title">Learning, applied.</h2>
-      </div>
-      <ul className="awards">
-        {achievements.slice(0, 4).map((item) => (
-          <Award key={item.title} item={item} />
-        ))}
-      </ul>
-      <details className="archive">
-        <summary>Earlier awards · 2015–2017</summary>
-        <ul className="awards">
-          {achievements.slice(4).map((item, index) => (
-            <Award key={index} item={item} />
+      <div className="shell section">
+        <div className="section-heading">
+          <h2 id="achievements-title">Achievements</h2>
+          <p>
+            English proficiency, applied learning, and competitive milestones.
+          </p>
+        </div>
+        <div className="recognition-lead">
+          <article className="toeic">
+            <h3>TOEIC</h3>
+            <p className="award-year">{achievements[0].year}</p>
+            <p className="score">
+              980<span>/990</span>
+            </p>
+            <p>English proficiency certification</p>
+          </article>
+          <article className="hackathon">
+            <h3>DApp Creator</h3>
+            <p className="award-year">2021</p>
+            <p className="prize">Second Prize</p>
+            <p>VMO Hackathon DApp Creator 2021</p>
+            <p>Educational platform using Ethereum blockchain</p>
+            <ul className="skill-list">
+              {achievements[1].skills?.map((skill) => (
+                <li key={skill}>{skill}</li>
+              ))}
+            </ul>
+          </article>
+        </div>
+        <div className="certificate-row">
+          {achievements.slice(2, 4).map((item) => (
+            <article key={item.title}>
+              <h3>{item.title}</h3>
+              <p className="award-year">{item.year}</p>
+              <p>{item.description}</p>
+              <a href={item.link} target="_blank" rel="noopener noreferrer">
+                Verify certificate
+              </a>
+            </article>
           ))}
-        </ul>
-      </details>
+        </div>
+        <div className="early-awards">
+          <h3>Where it started</h3>
+          <p>Software and competitive programming awards, 2015–2017.</p>
+          <ul className="award-register">
+            {achievements.slice(4).map((item, i) => (
+              <li key={i}>
+                <p className="award-year">{item.year}</p>
+                <div>
+                  <h4>{item.title}</h4>
+                  <p>{item.description}</p>
+                  {item.skills && (
+                    <p className="award-skills">{item.skills.join(", ")}</p>
+                  )}
+                </div>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </div>
     </section>
   );
 }

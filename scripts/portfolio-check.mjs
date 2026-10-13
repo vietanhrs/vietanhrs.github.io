@@ -3,7 +3,7 @@ import assert from "node:assert/strict";
 import { mkdir, readFile, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 const base = process.env.BASE_URL || "http://127.0.0.1:4173";
-const out = process.env.EVIDENCE_DIR || "../screenshots";
+const out = process.env.EVIDENCE_DIR || "../../portfolio-revision/screenshots";
 await mkdir(out, { recursive: true });
 const browser = await chromium.launch({
   executablePath: process.env.CHROME_PATH || "/usr/bin/google-chrome-stable",
@@ -11,7 +11,7 @@ const browser = await chromium.launch({
 });
 const results = [];
 try {
-  for (const width of [320, 390, 1440])
+  for (const width of [320, 390, 768, 1440])
     for (const theme of ["light", "dark"]) {
       const context = await browser.newContext({
         viewport: { width, height: width === 1440 ? 900 : 740 },
@@ -27,16 +27,60 @@ try {
       await page.goto(base);
       await page.evaluate(() => document.fonts.ready);
       assert.equal(await page.locator("h1").innerText(), "Trần Việt Anh");
+      assert.equal(await page.getByText(/Selected work/i).count(), 0);
+      assert.equal(await page.locator("#work, details, summary").count(), 0);
+      assert.equal(await page.locator("#experiences article").count(), 8);
+      for (const role of await page.locator("#experiences article").all())
+        assert(await role.isVisible());
+      assert.equal(await page.locator(".award-register>li").count(), 5);
+      assert.equal(
+        await page
+          .locator(".recognition-lead article,.certificate-row article")
+          .count(),
+        4,
+      );
+      for (const item of await page
+        .locator(
+          ".award-register>li,.recognition-lead article,.certificate-row article,.gear-grid article",
+        )
+        .all())
+        assert(await item.isVisible());
+      assert(
+        await page
+          .getByText(
+            "Designed technical solutions where common React state patterns were insufficient, including cross-application integration and shared-state flows across micro-frontends and multi-package UI systems.",
+            { exact: true },
+          )
+          .isVisible(),
+      );
+      assert(
+        await page.evaluate(() =>
+          document.fonts.check('400 16px "Source Code Pro"'),
+        ),
+      );
+      assert.equal(
+        await page.evaluate(
+          () => getComputedStyle(document.body).backgroundColor,
+        ),
+        theme === "light" ? "rgb(242, 229, 188)" : "rgb(29, 32, 33)",
+      );
       // Preserve supported delivery evidence while withholding unverified metrics.
       const teko = page.locator("#experiences article").filter({
         has: page.getByRole("heading", { name: "Teko Solution", exact: true }),
       });
-      assert(await teko.getByText(
-        "Delivered medium- and high-complexity epics spanning data-intensive user workflows, admin interfaces, multi-language support, browser embedding, and release coordination.",
-        { exact: true },
-      ).isVisible());
-      assert.equal(await teko.locator("li").count(), 3);
-      assert.equal(await page.getByText(/roughly 5 minutes to about 1 second/).count(), 0);
+      assert(
+        await teko
+          .getByText(
+            "Delivered medium- and high-complexity epics spanning data-intensive user workflows, admin interfaces, multi-language support, browser embedding, and release coordination.",
+            { exact: true },
+          )
+          .isVisible(),
+      );
+      assert.equal(await teko.locator(".role-highlights li").count(), 5);
+      assert.equal(
+        await page.getByText(/roughly 5 minutes to about 1 second/).count(),
+        0,
+      );
       assert(
         await page.evaluate(
           () => document.documentElement.scrollWidth <= innerWidth,
@@ -122,7 +166,7 @@ try {
           document.getElementById("achievements").getBoundingClientRect().top <
           180,
       );
-      await page.locator("#gear summary").click();
+
       assert.equal(await page.locator(".gear-grid article").count(), 2);
       assert(
         await page.evaluate(
@@ -150,16 +194,29 @@ try {
       results.push({ width, theme, errors, passed: true });
       await context.close();
     }
-  const historyPage = await browser.newPage({ viewport: { width: 1440, height: 900 }, reducedMotion: "reduce" });
+  const historyPage = await browser.newPage({
+    viewport: { width: 1440, height: 900 },
+    reducedMotion: "reduce",
+  });
   await historyPage.goto(base);
-  await historyPage.getByRole("link", { name: "Experience", exact: true }).click();
+  await historyPage
+    .getByRole("link", { name: "Experience", exact: true })
+    .click();
   await historyPage.waitForURL("**/#experiences");
-  await historyPage.getByRole("link", { name: "Achievements", exact: true }).click();
+  await historyPage
+    .getByRole("link", { name: "Achievements", exact: true })
+    .click();
   await historyPage.waitForURL("**/#achievements");
   await historyPage.goBack();
   await historyPage.waitForURL("**/#experiences");
-  await historyPage.waitForFunction(() => document.getElementById("experiences").getBoundingClientRect().top < 180);
-  assert.equal(await historyPage.evaluate(() => document.getAnimations().length), 0);
+  await historyPage.waitForFunction(
+    () =>
+      document.getElementById("experiences").getBoundingClientRect().top < 180,
+  );
+  assert.equal(
+    await historyPage.evaluate(() => document.getAnimations().length),
+    0,
+  );
   await historyPage.close();
   const page = await browser.newPage({ viewport: { width: 390, height: 740 } });
   await page.goto(base);

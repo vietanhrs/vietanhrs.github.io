@@ -2,10 +2,10 @@ import { useEffect, useRef, useState } from "react";
 import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
 const sections = [
-  ["work", "Selected work"],
   ["experiences", "Experience"],
   ["achievements", "Achievements"],
   ["links", "Contact"],
+  ["gear", "My gear"],
 ];
 export function Navigation() {
   const [open, setOpen] = useState(false);

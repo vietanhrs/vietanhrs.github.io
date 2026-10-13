@@ -2,40 +2,46 @@ export const CV_URL = "/Tran_Viet_Anh_CV___Fullstack_Software_Engineer.pdf";
 export function HeroSection() {
   return (
     <section id="top" className="hero shell" aria-labelledby="hero-title">
-      <p className="eyebrow">Software engineer · Hanoi, Vietnam</p>
+      <div className="hero-topline">
+        <p>Front-end engineer</p>
+        <p>Hanoi, Vietnam</p>
+      </div>
       <h1 id="hero-title">Trần Việt Anh</h1>
-      <p className="hero-role">
-        Front-end engineering.
-        <br />
-        System design. Product delivery.
-      </p>
-      <p className="hero-intro">
-        I design systems and build web applications—from front-end architecture
-        to cross-application integrations.
-      </p>
-      <div className="hero-actions">
-        <a className="primary-action" href="#work">
-          Selected work <span aria-hidden="true">↘</span>
-        </a>
-        <a className="secondary-action" href="#links">
-          Contact me
-        </a>
+      <div className="hero-bottom">
+        <div className="hero-summary">
+          <p>
+            I build web applications, design systems, and connect products
+            across front-end and full-stack engineering.
+          </p>
+          <div className="hero-actions">
+            <a className="primary-action" href="#experiences">
+              View experience <span aria-hidden="true">↘</span>
+            </a>
+            <a href={CV_URL} target="_blank" rel="noopener noreferrer">
+              View CV (PDF)
+            </a>
+            <a href="#links">Contact</a>
+          </div>
+        </div>
+        <div className="current-work">
+          <a href="#worldquant">WorldQuant</a>
+          <p>
+            Current role: Front-end Engineer
+            <br />
+            September 2026 – now
+          </p>
+        </div>
       </div>
-      <div className="support-links">
-        <a href={CV_URL} target="_blank" rel="noopener noreferrer">
-          View CV (PDF) ↗
+      <div className="career-strip" aria-label="Career overview">
+        <a href="#robotics">
+          <span>Research foundations</span>UET
         </a>
-        <a
-          href="https://github.com/vietanhrs"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          GitHub ↗
+        <a href="#teko">
+          <span>Product engineering</span>Teko Solution
         </a>
-      </div>
-      <div className="hero-note">
-        <span className="syntax-keyword">const</span> focus ={" "}
-        <span className="syntax-string">"build, integrate, deliver"</span>;
+        <a href="#worldquant">
+          <span>Front-end engineering</span>WorldQuant
+        </a>
       </div>
     </section>
   );

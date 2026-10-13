@@ -1,4 +1,3 @@
-import { SelectedWork } from "@/components/SelectedWork";
 import { Navigation } from "@/components/Navigation";
 import { HeroSection } from "@/components/HeroSection";
 import { ExperienceSection } from "@/components/ExperienceSection";
@@ -13,7 +12,6 @@ const Index = () => {
       <Navigation />
       <main id="main" tabIndex={-1}>
         <HeroSection />
-        <SelectedWork />
         <ExperienceSection />
         <AchievementsSection />
         <LinksSection />

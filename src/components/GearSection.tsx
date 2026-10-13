@@ -57,9 +57,14 @@ const iotItems: IoTItem[] = [
 
 export function GearSection() {
   return (
-    <section id="gear" className="shell uses">
-      <details>
-        <summary>Outside the work / My gear</summary>
+    <section
+      id="gear"
+      tabIndex={-1}
+      className="shell section uses"
+      aria-labelledby="gear-title"
+    >
+      <div>
+        <h2 id="gear-title">My gear</h2>
         <p className="uses-intro">
           The machines, keyboards and embedded devices I use.
         </p>
@@ -97,7 +102,7 @@ export function GearSection() {
             </li>
           ))}
         </ul>
-      </details>
+      </div>
     </section>
   );
 }
