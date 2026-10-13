@@ -1,17 +1,4 @@
-import { useEffect, useState } from "react";
-import { Badge } from "@/components/ui/badge";
-import {
-  Building2,
-  Calendar,
-  GraduationCap,
-  Briefcase,
-  ExternalLink,
-  Sparkles,
-} from "lucide-react";
-
-const WORLDQUANT_START_TIME = new Date(
-  "2026-09-07T09:00:00+07:00",
-).getTime();
+const WORLDQUANT_START_TIME = new Date("2026-09-07T09:00:00+07:00").getTime();
 
 interface Experience {
   title: string;
@@ -151,229 +138,77 @@ const experiences: Experience[] = [
   },
 ];
 
-const typeIcons = {
-  work: Briefcase,
-  research: GraduationCap,
-  teaching: Building2,
-};
-
-const typeColors = {
-  work: "bg-primary/10 text-primary border-primary/20",
-  research: "bg-accent/10 text-accent border-accent/20",
-  teaching: "bg-syntax-string/10 text-syntax-string border-syntax-string/20",
-};
-
-export function ExperienceSection() {
-  const [hasWorldQuantStarted, setHasWorldQuantStarted] = useState(
-    () => Date.now() >= WORLDQUANT_START_TIME,
-  );
-
-  useEffect(() => {
-    const timeUntilStart = WORLDQUANT_START_TIME - Date.now();
-
-    if (timeUntilStart <= 0) return;
-
-    const timeoutId = window.setTimeout(
-      () => setHasWorldQuantStarted(true),
-      timeUntilStart,
-    );
-
-    return () => window.clearTimeout(timeoutId);
-  }, []);
-
+function Role({ exp }: { exp: Experience }) {
+  const started = !exp.startsAt || Date.now() >= exp.startsAt;
   return (
-    <section id="experiences" className="py-24 relative">
-      <div className="container mx-auto px-4">
-        <div className="max-w-6xl mx-auto mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            <span className="syntax-keyword">interface</span>{" "}
-            <span className="syntax-function">Experience</span>{" "}
-            <span className="text-muted-foreground">{"{"}</span>
-          </h2>
-          <p className="text-muted-foreground font-mono text-sm pl-4">
-            <span className="syntax-comment">
-              // Architecture, product delivery, and hands-on engineering
-            </span>
-          </p>
-        </div>
-
-        <div className="max-w-6xl mx-auto relative">
-          <div
-            aria-hidden="true"
-            className="absolute left-2 top-0 bottom-0 w-px -translate-x-1/2 bg-border"
-          />
-
-          {experiences.map((exp) => {
-            const Icon = typeIcons[exp.type];
-            const isIncoming = Boolean(
-              exp.startsAt && !hasWorldQuantStarted,
-            );
-            const displayPeriod =
-              exp.startsAt && hasWorldQuantStarted
-                ? (exp.currentPeriod ?? exp.period)
-                : exp.period;
-            const displayDescription =
-              exp.startsAt && hasWorldQuantStarted
-                ? (exp.currentDescription ?? exp.description)
-                : exp.description;
-
-            return (
-              <div
-                key={`${exp.organization}-${exp.title}`}
-                className="relative mb-10 last:mb-0"
-              >
-                <div
-                  aria-hidden="true"
-                  className={`absolute left-2 top-7 z-20 -translate-x-1/2 rounded-full border-primary ${
-                    exp.featured
-                      ? "h-5 w-5 border-4 bg-primary ring-4 ring-primary/20"
-                      : "h-4 w-4 border-2 bg-card"
-                  }`}
-                />
-
-                <div className="ml-8 md:ml-12">
-                  <article
-                    className={`relative overflow-hidden rounded-lg border p-6 transition-all duration-300 ${
-                      exp.featured
-                        ? "border-primary/70 bg-gradient-to-br from-primary/20 via-card to-accent/10 shadow-xl shadow-primary/20 ring-1 ring-primary/30 hover:shadow-2xl hover:shadow-primary/25 md:p-8"
-                        : "border-border bg-card hover:border-primary/50 hover:shadow-lg"
-                    }`}
-                  >
-                    {exp.featured && (
-                      <div
-                        aria-hidden="true"
-                        className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-primary via-accent to-primary"
-                      />
-                    )}
-
-                    <div className="flex flex-wrap items-center gap-2 mb-3">
-                      {exp.featured && (
-                        <Badge className="border-foreground bg-foreground font-mono text-xs text-background shadow-md shadow-primary/20">
-                          <Sparkles
-                            aria-hidden="true"
-                            className="mr-1 h-3 w-3"
-                          />
-                          {isIncoming ? "incoming" : "current"}
-                        </Badge>
-                      )}
-                      <Badge
-                        variant="outline"
-                        className={`font-mono text-xs ${
-                          exp.featured
-                            ? "border-primary/30 bg-primary/10 text-foreground"
-                            : typeColors[exp.type]
-                        }`}
-                      >
-                        <Icon className="w-3 h-3 mr-1" />
-                        {exp.type}
-                      </Badge>
-                    </div>
-
-                    <h3
-                      className={`font-bold mb-1 ${
-                        exp.featured
-                          ? "text-2xl text-primary md:text-3xl"
-                          : "text-lg"
-                      }`}
-                    >
-                      {exp.title}
-                    </h3>
-                    {exp.organizationUrl ? (
-                      <a
-                        href={exp.organizationUrl}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className={`inline-flex items-center gap-1 font-mono mb-2 hover:underline ${
-                          exp.featured
-                            ? "text-xl font-semibold text-foreground"
-                            : "text-sm text-primary"
-                        }`}
-                      >
-                        {exp.organization}
-                        <ExternalLink className="w-3 h-3" />
-                      </a>
-                    ) : (
-                      <p
-                        className={`font-mono mb-2 ${
-                          exp.featured
-                            ? "text-xl font-semibold text-foreground"
-                            : "text-sm text-primary"
-                        }`}
-                      >
-                        {exp.organization}
-                      </p>
-                    )}
-
-                    <div className="flex items-center gap-2 text-muted-foreground text-sm mb-3">
-                      <Calendar className="w-4 h-4" />
-                      {displayPeriod}
-                    </div>
-
-                    {displayDescription && (
-                      <p
-                        className={`text-muted-foreground mb-4 leading-7 ${
-                          exp.featured ? "text-base" : "text-sm"
-                        }`}
-                      >
-                        {displayDescription}
-                      </p>
-                    )}
-
-                    {exp.products && exp.products.length > 0 && (
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {exp.products.map((product) => (
-                          <a
-                            key={product.name}
-                            href={product.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 rounded-full border border-primary/30 bg-primary/5 px-3 py-1 text-xs font-mono text-primary hover:bg-primary/10"
-                          >
-                            {product.name}
-                            <ExternalLink className="w-3 h-3" />
-                          </a>
-                        ))}
-                      </div>
-                    )}
-
-                    {exp.highlights && (
-                      <ul className="space-y-2 text-sm text-muted-foreground mb-4 pl-4 list-disc">
-                        {exp.highlights.map((highlight) => (
-                          <li key={highlight} className="leading-7">
-                            {highlight}
-                          </li>
-                        ))}
-                      </ul>
-                    )}
-
-                    <div className="flex flex-wrap gap-2">
-                      {exp.skills.map((skill) => (
-                        <Badge
-                          key={skill}
-                          variant="secondary"
-                          className={`font-mono text-xs ${
-                            exp.featured
-                              ? "border border-primary/30 bg-primary/10 text-foreground"
-                              : ""
-                          }`}
-                        >
-                          {skill}
-                        </Badge>
-                      ))}
-                    </div>
-                  </article>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-
-        <div className="max-w-6xl mx-auto mt-8">
-          <p className="text-muted-foreground font-mono text-3xl md:text-4xl">
-            <span className="text-muted-foreground">{"}"}</span>
-          </p>
-        </div>
+    <article className="role">
+      <div>
+        <p className="meta">
+          {started ? (exp.currentPeriod ?? exp.period) : exp.period}
+        </p>
+        <h3>{exp.organization}</h3>
+        {exp.featured && <span className="current-label">Current</span>}
       </div>
+      <div>
+        <h4>{exp.title}</h4>
+        <p>
+          {started
+            ? (exp.currentDescription ?? exp.description)
+            : exp.description}
+        </p>
+        {exp.highlights && (
+          <ul>
+            {exp.highlights.slice(0, 2).map((text) => (
+              <li key={text}>{text}</li>
+            ))}
+          </ul>
+        )}
+        <p className="tags">{exp.skills.join(" / ")}</p>
+        {exp.organizationUrl && (
+          <a
+            href={exp.organizationUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Organization website ↗
+          </a>
+        )}
+        {exp.products?.map((p) => (
+          <a
+            className="product-link"
+            key={p.name}
+            href={p.url}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {p.name} — product website ↗
+          </a>
+        ))}
+      </div>
+    </article>
+  );
+}
+export function ExperienceSection() {
+  return (
+    <section
+      id="experiences"
+      tabIndex={-1}
+      className="section shell"
+      aria-labelledby="experience-title"
+    >
+      <div className="section-heading">
+        <p className="eyebrow">02 / Experience</p>
+        <h2 id="experience-title">From research to product delivery.</h2>
+      </div>
+      {experiences.slice(0, 3).map((exp) => (
+        <Role key={exp.organization} exp={exp} />
+      ))}
+      <details className="archive">
+        <summary>Earlier engineering & research · 2019–2026</summary>
+        {experiences.slice(3).map((exp) => (
+          <Role key={exp.title} exp={exp} />
+        ))}
+      </details>
     </section>
   );
 }

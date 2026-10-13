@@ -1,110 +1,94 @@
-import { useState, useEffect } from "react";
+import { useEffect, useRef, useState } from "react";
+import { Menu, X } from "lucide-react";
 import { ThemeToggle } from "./ThemeToggle";
-import { Menu, X, Terminal } from "lucide-react";
-import { Button } from "@/components/ui/button";
-
-const navItems = [
-  { label: "experiences", href: "#experiences" },
-  { label: "achievements", href: "#achievements" },
-  { label: "gear", href: "#gear" },
-  { label: "links", href: "#links" },
+const sections = [
+  ["work", "Selected work"],
+  ["experiences", "Experience"],
+  ["achievements", "Achievements"],
+  ["links", "Contact"],
 ];
-
 export function Navigation() {
-  const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
+  const trigger = useRef<HTMLButtonElement>(null);
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+    const update = () => {
+      const current = sections
+        .filter(
+          ([id]) =>
+            (document.getElementById(id)?.getBoundingClientRect().top ??
+              Infinity) <= 160,
+        )
+        .at(-1);
+      setActive(current?.[0] ?? "");
     };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (element) {
-      element.scrollIntoView({ behavior: "smooth" });
-    }
-    setIsMobileMenuOpen(false);
-  };
-
-  return (
-    <nav
-      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled
-          ? "bg-background/80 backdrop-blur-lg border-b border-border shadow-sm"
-          : "bg-transparent"
-      }`}
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && open) {
+        setOpen(false);
+        trigger.current?.focus();
+      }
+    };
+    const resize = () => {
+      if (window.innerWidth >= 900) setOpen(false);
+    };
+    update();
+    window.addEventListener("scroll", update, { passive: true });
+    window.addEventListener("keydown", escape);
+    window.addEventListener("resize", resize);
+    return () => {
+      window.removeEventListener("scroll", update);
+      window.removeEventListener("keydown", escape);
+      window.removeEventListener("resize", resize);
+    };
+  }, [open]);
+  const links = sections.map(([id, label]) => (
+    <a
+      key={id}
+      href={"#" + id}
+      aria-current={active === id ? "location" : undefined}
+      onClick={() => {
+        setOpen(false);
+        document.getElementById(id)?.focus({ preventScroll: true });
+      }}
     >
-      <div className="container mx-auto px-4">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
+      {label}
+    </a>
+  ));
+  return (
+    <>
+      <a className="skip-link" href="#main">
+        Skip to content
+      </a>
+      <header className="site-header">
+        <nav className="shell nav-bar" aria-label="Main navigation">
           <a
-            href="#"
-            className="flex items-center gap-2 font-mono font-bold text-lg group"
-            onClick={(e) => {
-              e.preventDefault();
-              window.scrollTo({ top: 0, behavior: "smooth" });
-            }}
+            className="wordmark"
+            href="#top"
+            aria-label="Trần Việt Anh, back to top"
           >
-            <Terminal className="h-5 w-5 text-primary transition-transform group-hover:rotate-12" />
-            <span className="syntax-keyword">Viet</span>
-            <span className="syntax-function">Anh</span>
-            <span className="text-muted-foreground">.dev</span>
+            <span aria-hidden="true">~/</span>anh.tv
           </a>
-
-          {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
-            {navItems.map((item) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className="px-4 py-2 font-mono text-sm text-muted-foreground hover:text-foreground transition-colors relative group"
-              >
-                <span className="text-syntax-comment">//</span> {item.label}
-                <span className="absolute bottom-0 left-0 w-full h-0.5 bg-primary scale-x-0 group-hover:scale-x-100 transition-transform origin-left" />
-              </button>
-            ))}
-            <div className="ml-4 pl-4 border-l border-border">
-              <ThemeToggle />
-            </div>
-          </div>
-
-          {/* Mobile Menu Button */}
-          <div className="flex md:hidden items-center gap-2">
+          <div className="desktop-nav">{links}</div>
+          <div className="nav-tools">
             <ThemeToggle />
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            <button
+              ref={trigger}
+              className="menu-trigger"
+              aria-label={open ? "Close navigation" : "Open navigation"}
+              aria-expanded={open}
+              aria-controls="mobile-navigation"
+              onClick={() => setOpen(!open)}
             >
-              {isMobileMenuOpen ? (
-                <X className="h-5 w-5" />
-              ) : (
-                <Menu className="h-5 w-5" />
-              )}
-            </Button>
+              {open ? <X aria-hidden="true" /> : <Menu aria-hidden="true" />}
+            </button>
           </div>
-        </div>
-
-        {/* Mobile Menu */}
-        {isMobileMenuOpen && (
-          <div className="md:hidden py-4 border-t border-border animate-fade-in">
-            {navItems.map((item, index) => (
-              <button
-                key={item.label}
-                onClick={() => scrollToSection(item.href)}
-                className="block w-full text-left px-4 py-3 font-mono text-sm text-muted-foreground hover:text-foreground hover:bg-secondary/50 transition-colors"
-                style={{ animationDelay: `${index * 50}ms` }}
-              >
-                <span className="text-syntax-comment">//</span> {item.label}
-              </button>
-            ))}
+        </nav>
+        {open && (
+          <div id="mobile-navigation" className="mobile-nav shell">
+            {links}
           </div>
         )}
-      </div>
-    </nav>
+      </header>
+    </>
   );
 }
