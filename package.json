@@ -9,7 +9,7 @@
     "build:dev": "vite build --mode development",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test:portfolio": "node scripts/portfolio-check.mjs",
+    "test:portfolio": "node scripts/terminal-check.mjs",
     "typecheck": "tsc --noEmit -p tsconfig.app.json",
     "social:preview": "node scripts/social-preview.mjs"
   },

@@ -1,6 +1,6 @@
 # Source Code Pro
 
-Self-hosted variable normal fonts (weights 200–900), using 400/500/600/700 in this site. Latin and Vietnamese subsets: 30,220 bytes combined. Font-display: swap; Latin preloaded.
+Self-hosted variable normal fonts (weights 200–900), using Medium (500) exclusively in this site. Latin and Vietnamese subsets: 30,220 bytes combined. Font-display: swap; Latin preloaded.
 
 Downloaded 2026-10-13 from:
 - https://cdn.jsdelivr.net/fontsource/fonts/source-code-pro:vf@latest/latin-wght-normal.woff2
