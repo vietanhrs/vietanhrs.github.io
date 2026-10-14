@@ -69,16 +69,16 @@
     <div id="root"></div>
     <script>
       (function () {
-        const redirect = sessionStorage.getItem("spa-redirect");
-        if (!redirect) return;
-
-        sessionStorage.removeItem("spa-redirect");
-        const target = new URL(redirect, window.location.origin);
-        window.history.replaceState(
-          null,
-          "",
-          `${target.pathname}${target.search}${target.hash}`,
-        );
+        try {
+          const redirect = sessionStorage.getItem("spa-redirect");
+          if (!redirect) return;
+          sessionStorage.removeItem("spa-redirect");
+          const target = new URL(redirect, window.location.origin);
+          if (target.origin !== window.location.origin || target.pathname === "/404.html") return;
+          window.history.replaceState(null, "", `${target.pathname}${target.search}${target.hash}`);
+        } catch {
+          // Storage or an invalid saved URL must never prevent the home page loading.
+        }
       })();
     </script>
     <script type="module" src="/src/main.tsx"></script>

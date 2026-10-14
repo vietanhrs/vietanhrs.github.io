@@ -3,14 +3,20 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Redirecting...</title>
+    <title>Return to portfolio</title>
     <script>
-      sessionStorage.setItem(
-        "spa-redirect",
-        window.location.pathname + window.location.search + window.location.hash,
-      );
-      window.location.replace("/");
+      try {
+        // Direct visits to this document recover home, not back to this document.
+        if (window.location.pathname !== "/404.html" && window.location.pathname !== "/") {
+          sessionStorage.setItem("spa-redirect", window.location.pathname + window.location.search + window.location.hash);
+        } else {
+          sessionStorage.removeItem("spa-redirect");
+        }
+      } catch {
+        // Without storage, recover home without trying to preserve the unknown route.
+      }
+      if (window.location.pathname !== "/") window.location.replace("/");
     </script>
   </head>
-  <body></body>
+  <body><p>Page not found. <a href="/">Return to portfolio</a></p></body>
 </html>
